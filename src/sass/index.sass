@@ -1,0 +1,231 @@
+/* font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
+$Roboto: 'Roboto', sans-serif
+
+*
+    margin: 0
+    padding: 0
+
+html, body
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+
+.page
+    width: 640px
+    height: 360px
+
+.videoplayer
+    display: flex
+    position: relative
+    overflow: hidden
+    position: relative
+    width: 100%
+    height: 100%
+
+.videos
+    width: 100%
+    height: 100%
+
+    .video
+        width: 100%
+        height: 100%
+        pointer-events: none
+
+
+@keyframes state
+    0%
+        width: 50px
+        height: 50px
+        opacity: 0.8
+
+    100%
+        width: 70px
+        height: 70px
+        opacity: 0.2
+
+.video-state-container
+    position: absolute
+    width: 50px
+    height: 50px
+    top: 50%
+    left: 50%
+    transform: translateX(-50%) translateY(-50%)
+    pointer-events: none
+    user-select: none
+    display: none
+    animation: state 0.5s
+
+    .video-state
+        position: absolute
+        width: 100%
+        height: 100%
+        background: #464343
+        border-radius: 50%
+
+    .state-img
+        position: absolute
+        width: 100%
+        height: 100%
+        
+.preview-canvas
+    position: absolute
+    display: none
+    border: 1px solid white
+    bottom: 60px
+    left: 10px
+    width: 160px
+    height: 90px
+
+
+.video-controls
+    position: absolute
+    display: flex
+    flex-direction: column
+    width: 100%
+    bottom: 0
+    visibility: hidden
+
+.progress
+    display: flex
+    justify-content: center
+    align-items: center
+    width: calc(100% - 10px)
+    height: 5px
+    position: relative
+    cursor: pointer
+    padding: 5px 5px
+
+    .video-progress
+        background: grey
+        height: 5px
+        width: 100%
+        cursor: pointer
+
+    .current-position
+        position: absolute
+        left: 0px
+        height: 10px
+        width: 10px
+        border-radius: 50%
+        background: red
+        display: none
+        cursor: pointer
+
+
+//set color of progress
+progress::-webkit-progress-value
+    background: red
+
+.controls
+    user-select: none
+    display: flex
+    position: relative
+    width: 100%
+    height: 35px
+        
+    .left-controls
+        display: flex
+        justify-content: center
+        align-items: center
+        position: absolute
+        left: 0px
+        height: 100%
+
+        .track-controls
+            display: flex
+            justify-content: center
+            align-items: center
+            height: 100%
+
+            .prev
+                height: 35px
+                cursor: pointer
+
+            .playpause
+                height: 35px
+                cursor: pointer
+
+            .next
+                height: 35px
+                cursor: pointer
+
+        .volume-control
+            display: flex
+            justify-content: center
+            align-items: center
+            height: 100%
+
+            .volume
+                height: 20px
+                margin: 10px
+                cursor: pointer
+
+            .volume-slider-container    
+                height: 5px
+                width: 50px
+                position: relative
+                background: grey
+                display: none
+
+                .volume-slider-fill
+                    background: white
+                    height: 5px
+                    width: 25px
+
+                .volume-slider
+                    -webkit-appearance: none
+                    appearance: none
+                    outline: none
+                    position: absolute
+                    right: 0px
+                    width: 50px
+                    height: 5px
+                    background: transparent
+
+                    //::-webkit-slider-runnable-track
+
+        .time
+            display: flex
+            justify-content: center
+            align-items: center
+            height: 100%
+
+            .time-span
+                font-size: 12px
+                margin: 10px
+                color: white
+                font-family: $Roboto
+
+
+    .right-controls
+        display: flex
+        justify-content: center
+        align-items: center
+        position: absolute
+        right: 0px
+        height: 100%
+
+        .screen-modes
+            display: flex
+
+            .fullscreen
+                width: 35px
+                cursor: pointer
+
+::-webkit-slider-thumb
+    -webkit-appearance: none
+    appearance: none
+    border-radius: 50%
+    width: 15px
+    height: 15px
+    background: white
+    cursor: pointer
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d
+
+.frame
+    position: absolute
+    display: none
+    width: 80px

@@ -1,0 +1,14 @@
+<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <g class="ytp-fullscreen-button-corner-2">
+        <path class="ytp-svg-fill" d="m 14,14 -4,0 0,2 6,0 0,-6 -2,0 0,4 0,0 z" id="ytp-id-1976"></path>
+    </g>
+    <g class="ytp-fullscreen-button-corner-3">
+        <path class="ytp-svg-fill" d="m 22,14 0,-4 -2,0 0,6 6,0 0,-2 -4,0 0,0 z" id="ytp-id-1977"></path>
+    </g>
+    <g class="ytp-fullscreen-button-corner-0">
+        <path class="ytp-svg-fill" d="m 20,26 2,0 0,-4 4,0 0,-2 -6,0 0,6 0,0 z" id="ytp-id-1978"></path>
+    </g>
+    <g class="ytp-fullscreen-button-corner-1">
+        <path class="ytp-svg-fill" d="m 10,22 4,0 0,4 2,0 0,-6 -6,0 0,2 0,0 z" id="ytp-id-1979"></path>
+    </g>
+</svg>
