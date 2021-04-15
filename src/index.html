@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="page">
-        <div class="videoplayer" id="1">
+        <div class="videoplayer" id="one">
             <div class="videos">
                 <video class="video">
                     <source src="Jetta - I'd Love to Change the World (Matstubs Remix)-5hEh9LiSzow.mp4">
@@ -53,7 +53,52 @@
             </div>
         </div>
     </div>
-    <script src="js/index.js"></script>
+    <div class="page">
+        <div class="videoplayer" id="two">
+            <div class="videos">
+                <video class="video">
+                    <source src="Jetta - I'd Love to Change the World (Matstubs Remix)-5hEh9LiSzow.mp4">
+                </video>
+                <video class="shadow-video" src="Jetta - I'd Love to Change the World (Matstubs Remix)-5hEh9LiSzow.mp4" hidden></video>
+            </div>
+            <div class="video-state-container">
+                <div class="video-state"></div>
+                <img class="state-img" src="img/play.svg" alt="">
+            </div>
+            <canvas class="preview-canvas" draggable="false"></canvas>
+            <div class="video-controls" draggable="false">
+                <div class="progress" draggable="false">
+                    <progress class="video-progress" value="0" min="0" draggable="false"></progress>
+                    <div class="current-position" draggable="false"></div>
+                </div>
+                <div class="controls" draggable="false">
+                    <div class="left-controls" draggable="false">
+                        <div class="track-controls" draggable="false">
+                            <img class="prev" src="img/prev.svg" alt="" draggable="false">
+                            <img class="playpause"src="img/play.svg" alt="" draggable="false">
+                            <img class="next" src="img/next.svg" alt="" draggable="false">
+                        </div>
+                        <div class="volume-control" draggable="false">
+                            <img class="volume" src="img/volumeloud.svg" alt="" draggable="false">
+                            <div class="volume-slider-container" draggable="false">
+                                <div class="volume-slider-fill" draggable="false"></div>
+                                <input class="volume-slider" type="range" min="0" max="100" value="30" draggable="false">
+                            </div>
+                        </div>
+                        <div class="time" draggable="false">
+                            <span class="time-span" draggable="false"></span>
+                        </div>
+                    </div>
+                    <div class="right-controls" draggable="false">
+                        <div class="screen-modes" draggable="false">
+                            <img class="fullscreen" src="img/enterfullscreen.svg" alt="" draggable="false">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/videoclass.js"></script>
     <script src="js/keyboard.js"></script>
 </body>
 </html>

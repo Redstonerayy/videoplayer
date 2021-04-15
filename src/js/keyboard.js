@@ -76,7 +76,9 @@ const f = new Key(
     "KeyF",
     false,
     false,
-    toggleFullScreen
+    (ev) => {
+        toggleFullScreen();
+    }
 );
 
 const m = new Key(
@@ -169,5 +171,5 @@ const arrowdown = new Key(
     }
 );
 
-var keyboard = new KeyBoardInterface([p, f, m, 0, arrowleft, arrowright, arrowup, arrowdown]);
-keyboard.start();
+//var keyboard = new KeyBoardInterface([p, f, m, 0, arrowleft, arrowright, arrowup, arrowdown]);
+//keyboard.start();
