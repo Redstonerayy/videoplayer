@@ -17,7 +17,6 @@ class VideoPlayer{
 
         /* --------------- HIDE OR SHOW CONTROLS --------------------*/
         this.videoplayer.addEventListener('mouseenter', (ev) => {
-
             this.videocontrols.style.visibility = "visible";
             clearTimeout(this.hidecontrolstimeout);
             this.hidecontrolstimeout = setTimeout(() => {
@@ -32,9 +31,11 @@ class VideoPlayer{
         this.videoplayer.addEventListener('mousemove', (ev) => {
             this.videocontrols.style.visibility = "visible";
             clearTimeout(this.hidecontrolstimeout);
-            this.hidecontrolstimeout = setTimeout(() => {
-                this.videocontrols.style.visibility = "hidden"
-            }, 3000);
+            if(!this.mouseovercontrols){
+                this.hidecontrolstimeout = setTimeout(() => {
+                    this.videocontrols.style.visibility = "hidden"
+                }, 3000);
+            }
         });
 
 
@@ -107,6 +108,14 @@ class VideoPlayer{
         /* --------------- VIDEO CONTROLS --------------------*/
         this.videocontrols = document.querySelector(`#${id} > .video-controls`);
 
+        //prevent hide if mouse is over it
+        this.videocontrols.addEventListener('mouseenter', (ev) => {
+            this.mouseovercontrols = true;
+        });
+
+        this.videocontrols.addEventListener('mouseleave', (ev) => {
+            this.mouseovercontrols = false;
+        });
 
         /* ------------------------------------------------
             PROGRESSBAR
@@ -179,6 +188,19 @@ class VideoPlayer{
         /* --------------- VOLUME --------------------*/
         this.volumecontrol = document.querySelector(`#${id} > .video-controls > .controls > .left-controls > .volume-control`);
 
+        /* --------------- CHANGE VOLUME --------------------*/
+        //scroll
+        this.volumecontrol.addEventListener('wheel', (ev) => {
+            if(ev.deltaY < 0){
+                this.volumeslider.value = parseFloat(this.volumeslider.value) + 10;
+            } else {
+                this.volumeslider.value = this.volumeslider.value - 10;
+            }
+            this.video.volume = this.volumeslider.value/100;
+            this.volumesliderfill.style.width = `${this.volumeslider.value/2}px`;
+            this.updateVolumeIcon(this.volumeslider.value);
+        })
+
         /* --------------- SHOW/HIDE VOLUMESLIDER --------------------*/
         this.volumecontrol.addEventListener('mouseenter', (ev) => {
             this.volumeslidercontainer.style.display = "flex";
@@ -220,17 +242,6 @@ class VideoPlayer{
                 this.updateVolume(value);
             }
         });
-        //scroll
-        this.volumeslider.addEventListener('wheel', (ev) => {
-            if(ev.deltaY < 0){
-                this.volumeslider.value = parseFloat(this.volumeslider.value) + 10;
-            } else {
-                this.volumeslider.value = this.volumeslider.value - 10;
-            }
-            this.video.volume = this.volumeslider.value/100;
-            this.volumesliderfill.style.width = `${this.volumeslider.value/2}px`;
-            updateVolumeIcon(this.volumeslider.value);
-        })
 
         /* --------------- VOLUMESLIDER FILL --------------------*/
         this.volumesliderfill = document.querySelector(`#${id} > .video-controls > .controls > .left-controls > .volume-control > .volume-slider-container > .volume-slider-fill`);
@@ -254,8 +265,8 @@ class VideoPlayer{
         /* --------------- STATE VARIABLES --------------------*/
         this.mouseDown = false;
         this.progressDown = false;
-        this.hidecontrolstimeout;
-        this.videolength;
+        this.hidecontrolstimeout = undefined;
+        this.videolength = undefined;
 
         /* --------------- DOCUMENT --------------------*/
         /* --------------- SET STATE VARIABLE --------------------*/
@@ -288,7 +299,7 @@ class VideoPlayer{
                 this.updateProgressBar(value);
             }
         });
-
+        
         /* --------------- WINDOW --------------------*/
         //if drag of positiondot release it on cursor moving out of window
         window.addEventListener('mouseleave', (ev) => {
@@ -334,7 +345,7 @@ class VideoPlayer{
         this.video.volume = value/100;
         
         //gui
-        updateVolumeIcon(value);
+        this.updateVolumeIcon(value);
         this.volumeslider.value = value;
         this.volumesliderfill.style.width = `${this.volumeslider.value/2}px`;
     }
@@ -378,19 +389,27 @@ class VideoPlayer{
             this.playpause.src = "img/pause.svg";
             this.stateimg.src = "img/pause.svg";
             this.statecontainer.style.display = "block";
-            setTimeout(() => {
+            this.statecontainerhide = setTimeout(() => {
                 this.statecontainer.style.display = "none";
             }, 500);
 
+            this.videocontrols.style.visibility = "visible";
+            this.hidecontrolstimeout = setTimeout(() => {
+                this.videocontrols.style.visibility = "hidden";                
+            }, 3000);
         } else {
             this.video.pause();
             //gui
             this.playpause.src = "img/play.svg";
             this.stateimg.src = "img/play.svg";
             this.statecontainer.style.display = "block";
-            setTimeout(() => {
+            this.statecontainerhide = setTimeout(() => {
                 this.statecontainer.style.display = "none";
             }, 500);
+
+            this.videocontrols.style.visibility = "visible";
+            clearInterval(this.hidecontrolstimeout);
+            this.hidecontrolstimeout = null;
         }
     }
 
@@ -413,8 +432,6 @@ class VideoPlayer{
             document.exitFullscreen();
             this.fullscreen.src = "img/enterfullscreen.svg";
         } else {
-            console.log(this);
-            console.log(this.videoplayer);
             this.videoplayer.requestFullscreen();
             this.fullscreen.src = "img/leavefullscreen.svg";
         }
