@@ -440,3 +440,7 @@ class VideoPlayer{
 
 var videoplayer = new VideoPlayer("one");
 var two = new VideoPlayer("two");
+
+document.addEventListener('dragstart', (ev) => {
+    console.log(ev);
+})
