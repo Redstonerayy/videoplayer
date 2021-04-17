@@ -33,11 +33,12 @@ class KeyBoardInterface{
         });
         
         pressedkeys.forEach(key => {
-            key.action();
+            key.action(this.args);
         });
     }
 
-    start(){
+    start(args){
+        this.args = args;
         window.addEventListener("keydown", this.keylistener.bind(this));
     }
 
@@ -62,11 +63,11 @@ const p = new Key(
     "KeyP",
     false,
     false,
-    () => {
-        if(video.paused){
-            togglePlay("play");
+    (args) => {
+        if(args.instance.video.paused){
+            args.instance.togglePlay("play");
         } else {
-            togglePlay("pause");
+            args.instance.togglePlay("pause");
         }
     }
 );
@@ -76,7 +77,9 @@ const f = new Key(
     "KeyF",
     false,
     false,
-    toggleFullScreen
+    (args) => {
+        args.instance.toggleFullScreen();
+    }
 );
 
 const m = new Key(
@@ -84,11 +87,13 @@ const m = new Key(
     "KeyM",
     false,
     false,
-    () => {
+    (args) => {
+        let video = args.instance.video;
+
         if(video.muted){
-            toggleMute("unmute");
+            args.instance.toggleMute("unmute");
         } else {
-            toggleMute("mute");
+            args.instance.toggleMute("mute");
         }
     }
 );
@@ -98,7 +103,7 @@ const o = new Key(
     "KeyO",
     false,
     false,
-    () => {
+    (args) => {
         console.log("o");
     }
 );
@@ -108,10 +113,11 @@ const arrowleft = new Key(
     "ArrowLeft",
     false,
     false,
-    () => {
+    (args) => {
+        let video = args.instance.video;
+
         video.currentTime -= 5;
         if(video.ended){
-            console.log("a");
             video.play();
         }
     }
@@ -122,8 +128,8 @@ const arrowright = new Key(
     "ArrowRight",
     false,
     false,
-    () => {
-        video.currentTime += 5;
+    (args) => {
+        args.instance.video.currentTime += 5;
     }
 );
 
@@ -132,19 +138,18 @@ const arrowup = new Key(
     "ArrowUp",
     false,
     false,
-    () => {
-        video.volume = video.volume + (video.volume <= 0.9 ? 0.1 : 0);
-        volumeslider.value = parseFloat(volumeslider.value) + (volumeslider.value <= 90 ? 10 : 0);
-        volumesliderfill.style.width = `${volumeslider.value/2}px`;
-        if(volumeslider.value > 50){
-            volume.src = "img/volumeloud.svg";
-            video.muted = false;
-        } else if(volumeslider.value > 0) {
-            volume.src = "img/volumelow.svg";
-            video.muted = false;
-        } else {//0
-            volume.src = "img/muted.svg";
-        }
+    (args) => {
+        let video = args.instance.video;
+        let volumeslider = args.instance.volumeslider;
+        let volumesliderfill = args.instance.volumesliderfill;
+        
+        //set volume of video
+        video.volume = (video.volume + 0.1) > 1 ? 1 : (video.volume + 0.1);
+
+        //gui
+        args.instance.updateVolumeIcon(video.volume * 100);
+        volumeslider.value = video.volume * 100;
+        volumesliderfill.style.width = `${volumeslider.value != 0 ? volumeslider.value/2 : 0}px`;
     }
 );
 
@@ -153,21 +158,20 @@ const arrowdown = new Key(
     "ArrowDown",
     false,
     false,
-    () => {
-        video.volume = video.volume - (video.volume >= 0.1 ? 0.1 : 0);
-        volumeslider.value = parseFloat(volumeslider.value) - (volumeslider.value >= 10 ? 10 : 0);
-        volumesliderfill.style.width = `${volumeslider.value/2}px`;
-        if(volumeslider.value > 50){
-            volume.src = "img/volumeloud.svg";
-            video.muted = false;
-        } else if(volumeslider.value > 0) {
-            volume.src = "img/volumelow.svg";
-            video.muted = false;
-        } else {//0
-            volume.src = "img/muted.svg";
-        }
+    (args) => {
+        let video = args.instance.video;
+        let volumeslider = args.instance.volumeslider;
+        let volumesliderfill = args.instance.volumesliderfill;
+        
+        //set volume of video
+        video.volume = (video.volume - 0.1) < 0 ? 0 : (video.volume - 0.1);
+
+        //gui
+        args.instance.updateVolumeIcon(video.volume * 100);
+        volumeslider.value = video.volume * 100;
+        volumesliderfill.style.width = `${volumeslider.value != 0 ? volumeslider.value/2 : 0}px`;
     }
 );
 
 var keyboard = new KeyBoardInterface([p, f, m, 0, arrowleft, arrowright, arrowup, arrowdown]);
-keyboard.start();
+keyboard.start({ instance: two});
